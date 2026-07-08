@@ -1,0 +1,462 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>와루도 API 커미션 신청서</title>
+<style>
+  :root{
+    --purple:#8b5cf6; --purple-dark:#6d28d9; --purple-light:#ede9fe;
+    --bg:#faf8ff; --card:#ffffff; --text:#2e2440; --muted:#7c6f93;
+    --border:#e5ddf5; --danger:#e0447c;
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  body{
+    font-family:'Pretendard','Apple SD Gothic Neo','Malgun Gothic',sans-serif;
+    background:var(--bg); color:var(--text); line-height:1.6; padding:24px 16px 80px;
+  }
+  .wrap{max-width:760px; margin:0 auto;}
+  header{text-align:center; margin-bottom:28px;}
+  header h1{font-size:1.6rem; color:var(--purple-dark);}
+  header p{color:var(--muted); margin-top:6px; font-size:.95rem;}
+  .card{
+    background:var(--card); border:1px solid var(--border); border-radius:16px;
+    padding:20px 22px; margin-bottom:18px; box-shadow:0 2px 10px rgba(139,92,246,.06);
+  }
+  .card h2{
+    font-size:1.05rem; color:var(--purple-dark); margin-bottom:12px;
+    display:flex; align-items:center; gap:8px;
+  }
+  .num{
+    background:var(--purple); color:#fff; width:24px; height:24px; border-radius:50%;
+    display:inline-flex; align-items:center; justify-content:center;
+    font-size:.8rem; flex-shrink:0;
+  }
+  label.field{display:block; font-size:.88rem; color:var(--muted); margin:10px 0 4px; font-weight:600;}
+  .req{color:var(--danger); font-weight:700;}
+  input[type=text], textarea, select{
+    width:100%; padding:10px 12px; border:1.5px solid var(--border); border-radius:10px;
+    font-size:.95rem; font-family:inherit; background:#fff; color:var(--text);
+  }
+  input:focus, textarea:focus, select:focus{outline:none; border-color:var(--purple);}
+  textarea{resize:vertical; min-height:64px;}
+  .hint{font-size:.8rem; color:var(--muted); margin-top:3px;}
+  .chips{display:flex; flex-wrap:wrap; gap:8px; margin-top:6px;}
+  .chips label{
+    border:1.5px solid var(--border); border-radius:999px; padding:6px 14px;
+    font-size:.87rem; cursor:pointer; user-select:none; background:#fff;
+    transition:all .15s;
+  }
+  .chips input{display:none;}
+  .chips label:has(input:checked){
+    background:var(--purple); color:#fff; border-color:var(--purple);
+  }
+  .checkline{display:flex; align-items:flex-start; gap:10px; margin:8px 0; font-size:.93rem; cursor:pointer;}
+  .checkline input{width:18px; height:18px; margin-top:3px; accent-color:var(--purple); cursor:pointer; flex-shrink:0;}
+  .ref-banner{
+    background:var(--purple-light); border:1.5px dashed var(--purple);
+    border-radius:12px; padding:12px 14px; font-size:.88rem; margin:12px 0 4px;
+  }
+  .fee-banner{
+    background:#fdf2f8; border:1.5px dashed var(--danger);
+    border-radius:12px; padding:12px 14px; font-size:.88rem; margin-bottom:10px;
+  }
+  .grid2{display:grid; grid-template-columns:1fr 1fr; gap:12px;}
+  @media(max-width:560px){.grid2{grid-template-columns:1fr;}}
+  .btn{
+    display:block; width:100%; padding:14px; border:none; border-radius:12px;
+    background:var(--purple); color:#fff; font-size:1.05rem; font-weight:700;
+    cursor:pointer; font-family:inherit; transition:background .15s;
+  }
+  .btn:hover{background:var(--purple-dark);}
+  .btn.secondary{background:#fff; color:var(--purple-dark); border:1.5px solid var(--purple); margin-top:10px;}
+  .btn.secondary:hover{background:var(--purple-light);}
+  .btn.add{
+    background:#fff; color:var(--purple-dark); border:2px dashed var(--purple);
+    margin-bottom:18px; font-size:.98rem;
+  }
+  .btn.add:hover{background:var(--purple-light);}
+  /* 프리셋 */
+  .preset-box{
+    background:var(--purple-light); border:1.5px solid var(--border); border-radius:16px;
+    padding:14px 16px; margin-bottom:12px;
+  }
+  .preset-title{font-size:.9rem; font-weight:700; color:var(--purple-dark); margin-bottom:3px;}
+  .preset-hint{font-size:.78rem; color:var(--muted); margin-bottom:9px;}
+  .preset-btns{display:flex; flex-wrap:wrap; gap:8px;}
+  .preset-btns button{
+    border:1.5px solid var(--purple); background:#fff; color:var(--purple-dark);
+    border-radius:999px; padding:7px 14px; font-size:.88rem; cursor:pointer;
+    font-family:inherit; font-weight:600; transition:all .15s;
+  }
+  .preset-btns button:hover{background:var(--purple); color:#fff;}
+  .preset-tag{
+    background:var(--purple-light); color:var(--purple-dark); border:1px solid var(--purple);
+    border-radius:999px; padding:2px 10px; font-size:.75rem; font-weight:700;
+  }
+  /* API 카드 */
+  .api-card{
+    border:2px solid var(--purple); position:relative;
+    box-shadow:0 3px 14px rgba(139,92,246,.12);
+  }
+  .api-head{
+    display:flex; align-items:center; justify-content:space-between; margin-bottom:4px;
+  }
+  .api-title{
+    font-size:1.1rem; font-weight:800; color:var(--purple-dark);
+    display:flex; align-items:center; gap:8px;
+  }
+  .api-badge{
+    background:var(--purple); color:#fff; border-radius:8px; padding:2px 10px; font-size:.95rem;
+  }
+  .del-btn{
+    border:1.5px solid var(--border); background:#fff; color:var(--danger);
+    border-radius:8px; padding:5px 12px; font-size:.82rem; cursor:pointer;
+    font-family:inherit; font-weight:600;
+  }
+  .del-btn:hover{background:#fdf2f8; border-color:var(--danger);}
+  .subsec{font-size:.92rem; font-weight:700; color:var(--purple-dark); margin-top:16px;}
+  #preview{
+    white-space:pre-wrap; font-size:.85rem; background:#2e2440; color:#f3eeff;
+    border-radius:12px; padding:16px; margin-top:14px; display:none;
+    font-family:'Consolas','Courier New',monospace; max-height:420px; overflow-y:auto;
+  }
+  .error-msg{color:var(--danger); font-size:.85rem; margin-top:8px; display:none; font-weight:600; white-space:pre-line;}
+  .invalid{border-color:var(--danger)!important;}
+  .toast{
+    position:fixed; bottom:24px; left:50%; transform:translateX(-50%) translateY(80px);
+    background:var(--purple-dark); color:#fff; padding:12px 22px; border-radius:999px;
+    font-size:.9rem; opacity:0; transition:all .3s; pointer-events:none; z-index:99;
+  }
+  .toast.show{opacity:1; transform:translateX(-50%) translateY(0);}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <h1>💜 와루도 API 커미션 신청서</h1>
+    <p>항목을 채우고 맨 아래 버튼을 누르면<br>디스코드에 바로 붙여넣을 수 있는 신청서가 만들어져요!</p>
+  </header>
+
+  <div class="card">
+    <h2><span class="num">1</span>기본 정보</h2>
+    <div class="grid2">
+      <div>
+        <label class="field">활동명(닉네임) <span class="req">*</span></label>
+        <input type="text" id="nick" placeholder="예) 샨디">
+      </div>
+      <div>
+        <label class="field">방송 플랫폼</label>
+        <select id="platform">
+          <option value="">선택해주세요</option>
+          <option>트위치</option>
+          <option>유튜브</option>
+          <option>치지직</option>
+          <option>트위치 + 유튜브</option>
+          <option>기타</option>
+        </select>
+      </div>
+      <div style="grid-column:1/-1;">
+        <label class="field">채널 링크</label>
+        <input type="text" id="channel" placeholder="https://">
+      </div>
+    </div>
+  </div>
+
+  <div class="card" style="border:none; background:transparent; box-shadow:none; padding:0 4px 0;">
+    <h2><span class="num">2</span>신청할 API 리스트</h2>
+    <p class="hint" style="margin:-6px 0 12px;">의뢰할 API가 여러 개라면 아래 [＋ API 추가하기] 버튼으로 늘려주세요!</p>
+  </div>
+
+  <div id="apiList"></div>
+
+  <div class="preset-box">
+    <p class="preset-title">🎁 프리셋으로 바로 추가</p>
+    <p class="preset-hint">버튼을 누르면 내용이 미리 채워진 API가 추가돼요. 자유롭게 수정 가능!</p>
+    <div class="preset-btns" id="presetBtns"></div>
+  </div>
+  <button class="btn add" id="addApiBtn">➕ 직접 입력으로 API 추가하기</button>
+
+  <div class="card">
+    <h2><span class="num">3</span>와루도 프로 사용 여부 <span class="req">*</span></h2>
+    <div class="chips" id="warudoPro">
+      <label><input type="radio" name="wpro" value="와루도 프로 사용 중">와루도 프로 사용 중</label>
+      <label><input type="radio" name="wpro" value="일반(무료) 버전">일반(무료) 버전</label>
+      <label><input type="radio" name="wpro" value="잘 모르겠어요">잘 모르겠어요</label>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2><span class="num">4</span>필수 전달 리스트 ✅</h2>
+    <p class="hint" style="margin-bottom:8px;">작업에 꼭 필요한 파일이에요. 준비 상태를 체크해주세요!</p>
+    <label class="checkline"><input type="checkbox" id="d1"><span>와루도 아바타 파일 (.warudo)</span></label>
+    <label class="checkline"><input type="checkbox" id="d2"><span>자주 쓰는 와루도 씬</span></label>
+    <label class="checkline"><input type="checkbox" id="d3"><span>레퍼런스 이미지 (1장 이상)</span></label>
+  </div>
+
+  <div class="card">
+    <h2><span class="num">5</span>포트폴리오 공개 여부 <span class="req">*</span></h2>
+    <div class="fee-banner">완성된 작업물은 제작자 포트폴리오/홍보에 사용될 수 있어요.<br>⚠️ 포트폴리오 <b>비공개 요청 시 추가 비용 50,000원</b>이 발생합니다.</div>
+    <label class="checkline"><input type="radio" name="portfolio" value="공개 가능"><span>포트폴리오 <b>공개 가능</b></span></label>
+    <label class="checkline"><input type="radio" name="portfolio" value="비공개 요청 (+50,000원 추가 비용 확인했습니다)"><span><b>비공개 요청</b> — 추가 비용 50,000원이 발생하는 것을 확인했습니다</span></label>
+  </div>
+
+  <div class="card">
+    <h2><span class="num">6</span>기타 문의사항</h2>
+    <textarea id="etc" placeholder="궁금한 점이나 하고 싶은 말을 자유롭게 적어주세요!"></textarea>
+  </div>
+
+  <button class="btn" id="genBtn">✨ 디스코드용 신청서 만들기</button>
+  <p class="error-msg" id="errMsg"></p>
+  <div id="preview"></div>
+  <button class="btn secondary" id="copyBtn" style="display:none;">📋 신청서 복사하기</button>
+</div>
+
+<div class="toast" id="toast">복사 완료! 디스코드에 붙여넣어 주세요 💜</div>
+
+<script>
+(function(){
+  const $ = id => document.getElementById(id);
+  const CIRCLED = ['①','②','③','④','⑤','⑥','⑦','⑧','⑨','⑩','⑪','⑫','⑬','⑭','⑮'];
+  const numOf = i => CIRCLED[i] || (i+1);
+  const or = (s, alt) => s ? s : (alt || '(미입력)');
+
+  const TRIGGERS = ['트위치 채널포인트','트위치 비트(도네)','구독/재구독','레이드','팔로우',
+    '유튜브 슈퍼챗','유튜브 멤버십','채팅 키워드/!명령어','단축키','마이크 볼륨(소리 지르면)',
+    '표정/손 제스처','타이머/랜덤'];
+
+  function apiCardHTML(){
+    const trigChips = TRIGGERS.map(t=>`<label><input type="checkbox" value="${t}">${t.replace('(소리 지르면)','').replace('트위치 비트(도네)','비트(도네)').replace('유튜브 멤버십','멤버십')}</label>`).join('');
+    return `
+      <div class="api-head">
+        <span class="api-title"><span class="api-badge">API</span><span class="api-num"></span><span class="preset-tag" style="display:none;"></span></span>
+        <button type="button" class="del-btn">🗑 이 API 삭제</button>
+      </div>
+
+      <label class="field">한 줄 요약 <span class="req">*</span> — "○○하면 → 아바타가 ○○한다" 형식으로!</label>
+      <textarea class="f-summary" placeholder="예) 시청자가 채널포인트를 쓰면 → 아바타가 하늘로 발사된다" style="min-height:52px;"></textarea>
+
+      <p class="subsec">🎬 트리거 — 무엇이 일어나면 작동하나요? <span class="req">*</span></p>
+      <div class="chips f-triggers">${trigChips}</div>
+      <label class="field">트리거 추가 설명 (명령어 이름, 금액 구간 등)</label>
+      <input type="text" class="f-trigDetail" placeholder="예) 채널포인트 이름: '발사!' / 비트 1000개 이상일 때">
+
+      <p class="subsec">✨ 효과 — 아바타/화면이 어떻게 되나요? <span class="req">*</span></p>
+      <textarea class="f-effDetail" placeholder="예) 애니메이션 재생, 의상 변경, 표정 변화, 하늘로 발사, 머리 풍선, 소품 소환, 카메라 연출, 조명·배경 변경, 효과음 등 — 원하는 연출을 자유롭게 설명해주세요!" style="min-height:80px; margin-top:6px;"></textarea>
+
+      <p class="subsec">📝 상세 설명</p>
+      <textarea class="f-detail" placeholder="지속 시간, 연출 순서, 쿨타임, 금액 구간별 차이 등 원하시는 디테일을 자유롭게!"></textarea>
+
+      <p class="subsec">🖼 레퍼런스 <span class="req">*필수</span></p>
+      <div class="ref-banner">⭐ 이 API의 레퍼런스 이미지를 <b>반드시 1장 이상</b> 디스코드에 첨부해주세요!<br>원하는 느낌의 그림, 스크린샷, 손그림 모두 좋아요.</div>
+      <label class="checkline"><input type="checkbox" class="f-refConfirm"><span>레퍼런스 이미지를 디스코드 메시지에 <b>함께 첨부</b>하겠습니다. <span class="req">*</span></span></label>
+      <div class="grid2">
+        <div>
+          <label class="field">첨부할 이미지 개수</label>
+          <input type="text" class="f-refCount" placeholder="예) 2장">
+        </div>
+        <div>
+          <label class="field">참고 영상/클립 링크 (있다면)</label>
+          <input type="text" class="f-refLink" placeholder="https://">
+        </div>
+      </div>`;
+  }
+
+  const list = $('apiList');
+
+  const PRESETS = [
+    {emoji:'✨', name:'파티클 윙크',
+      summary:'윙크하면 → 눈가에서 반짝이 파티클이 터진다',
+      triggers:['표정/손 제스처'], trigDetail:'윙크 표정 인식 (얼굴 트래킹)',
+      effect:'윙크하는 순간 눈가에서 반짝이(별/하트) 파티클이 퐁 터지고 짧은 효과음이 재생돼요.',
+      detail:''},
+    {emoji:'💋', name:'팬캐릭터 뽀뽀',
+      summary:'트리거되면 → 팬 캐릭터가 나타나 아바타에게 뽀뽀한다',
+      triggers:['트위치 채널포인트'], trigDetail:'',
+      effect:'팬 캐릭터가 화면에 등장해 아바타 볼에 뽀뽀 → 아바타는 놀람/발그레 표정 + 하트 파티클이 터져요.',
+      detail:'팬 캐릭터 이미지(또는 모델) 파일이 필요해요. 신청 시 함께 전달해주세요!'},
+    {emoji:'💃', name:'춤 + 카메라 애니메이팅',
+      summary:'트리거되면 → 아바타가 춤추고 카메라도 연출에 맞춰 움직인다',
+      triggers:['채팅 키워드/!명령어'], trigDetail:'',
+      effect:'지정한 춤 애니메이션 재생 + 카메라가 줌인/회전 등으로 함께 움직이는 무대 연출이에요.',
+      detail:'원하는 춤(곡)과 카메라 무빙 느낌을 적어주세요.'},
+    {emoji:'💤', name:'AFK 효과',
+      summary:'자리를 비울 때 → AFK 모드 연출로 전환된다',
+      triggers:['단축키'], trigDetail:'',
+      effect:'단축키를 누르면 아바타가 잠자기/휴식 포즈로 바뀌고 화면이 어두워지며 AFK 오버레이가 떠요. 다시 누르면 원래대로!',
+      detail:''},
+    {emoji:'😇', name:'천사날개',
+      summary:'트리거되면 → 아바타 등에 천사 날개가 나타난다',
+      triggers:['트위치 채널포인트'], trigDetail:'',
+      effect:'등에서 빛나는 천사 날개가 소환되어 펄럭이고, 후광/반짝이 파티클과 함께 일정 시간 뒤 사라져요.',
+      detail:''}
+  ];
+
+  function addApiCard(preset){
+    const card = document.createElement('div');
+    card.className = 'card api-card';
+    card.innerHTML = apiCardHTML();
+    if(preset){
+      card.dataset.preset = preset.name;
+      const tag = card.querySelector('.preset-tag');
+      tag.textContent = '🎁 ' + preset.name;
+      tag.style.display = '';
+      card.querySelector('.f-summary').value = preset.summary;
+      card.querySelectorAll('.f-triggers input').forEach(cb=>{
+        if(preset.triggers.includes(cb.value)) cb.checked = true;
+      });
+      card.querySelector('.f-trigDetail').value = preset.trigDetail || '';
+      card.querySelector('.f-effDetail').value = preset.effect || '';
+      card.querySelector('.f-detail').value = preset.detail || '';
+    }
+    card.querySelector('.del-btn').addEventListener('click', function(){
+      if(list.children.length <= 1){ alert('API는 최소 1개가 필요해요!'); return; }
+      card.remove();
+      renumber();
+    });
+    list.appendChild(card);
+    renumber();
+    return card;
+  }
+
+  PRESETS.forEach(p=>{
+    const b = document.createElement('button');
+    b.type = 'button';
+    b.textContent = p.emoji + ' ' + p.name;
+    b.addEventListener('click', function(){
+      const card = addApiCard(p);
+      card.scrollIntoView({behavior:'smooth', block:'start'});
+    });
+    $('presetBtns').appendChild(b);
+  });
+
+  function renumber(){
+    Array.from(list.children).forEach((card, i)=>{
+      card.querySelector('.api-num').textContent = numOf(i);
+      card.querySelector('.del-btn').style.display = list.children.length > 1 ? '' : 'none';
+    });
+  }
+
+  $('addApiBtn').addEventListener('click', function(){
+    const card = addApiCard();
+    card.scrollIntoView({behavior:'smooth', block:'start'});
+  });
+
+  addApiCard(); // 기본 1개
+
+  function cardData(card){
+    const q = sel => card.querySelector(sel);
+    const val = sel => q(sel).value.trim();
+    return {
+      summary: val('.f-summary'),
+      triggers: Array.from(card.querySelectorAll('.f-triggers input:checked')).map(c=>c.value),
+      trigDetail: val('.f-trigDetail'),
+      effDetail: val('.f-effDetail'),
+      detail: val('.f-detail'),
+      refConfirm: q('.f-refConfirm').checked,
+      refCount: val('.f-refCount'),
+      refLink: val('.f-refLink'),
+      preset: card.dataset.preset || '',
+      el: card
+    };
+  }
+
+  function radioVal(name){
+    const r = document.querySelector('input[name='+name+']:checked');
+    return r ? r.value : '';
+  }
+
+  function build(){
+    const cards = Array.from(list.children).map(cardData);
+    let t = '';
+    t += '🔴 **와루도 API 커미션 신청서** 🔵\n';
+    t += '━━━━━━━━━━━━━━━━━━\n';
+    t += '**1. 기본 정보**\n';
+    t += '· 활동명: ' + or($('nick').value.trim()) + '\n';
+    t += '· 방송 플랫폼: ' + or($('platform').value) + '\n';
+    t += '· 채널 링크: ' + or($('channel').value.trim()) + '\n\n';
+    t += '**2. 신청 API (총 ' + cards.length + '개)**\n';
+    cards.forEach((c, i)=>{
+      t += '\n◆ **API ' + numOf(i) + '** — ' + or(c.summary) + '\n';
+      if(c.preset) t += '· 프리셋: 🎁 ' + c.preset + '\n';
+      t += '· 트리거: ' + (c.triggers.length? c.triggers.join(', ') : '(미선택)');
+      t += c.trigDetail ? ' / ' + c.trigDetail : '';
+      t += '\n· 효과: ' + or(c.effDetail) + '\n';
+      if(c.detail) t += '· 상세 설명: ' + c.detail + '\n';
+      t += '· 레퍼런스: 이미지 첨부 예정' + (c.refCount ? ' (' + c.refCount + ')' : '');
+      if(c.refLink) t += ' / 참고 링크: ' + c.refLink;
+      t += '\n';
+    });
+    t += '\n**3. 와루도 프로**: ' + or(radioVal('wpro')) + '\n\n';
+    t += '**4. 필수 전달 리스트**\n';
+    t += ($('d1').checked?'☑':'☐') + ' 와루도 아바타 파일 (.warudo)\n';
+    t += ($('d2').checked?'☑':'☐') + ' 자주 쓰는 와루도 씬\n';
+    t += ($('d3').checked?'☑':'☐') + ' 레퍼런스 이미지 (1장 이상)\n\n';
+    t += '**5. 포트폴리오**: ' + or(radioVal('portfolio')) + '\n';
+    if($('etc').value.trim()) t += '\n**6. 기타 문의사항**\n' + $('etc').value.trim() + '\n';
+    t += '━━━━━━━━━━━━━━━━━━';
+    return t;
+  }
+
+  function validate(){
+    const problems = [];
+    $('nick').classList.remove('invalid');
+    if(!$('nick').value.trim()){ $('nick').classList.add('invalid'); problems.push('활동명'); }
+
+    Array.from(list.children).forEach((card, i)=>{
+      const c = cardData(card);
+      const miss = [];
+      card.querySelector('.f-summary').classList.remove('invalid');
+      card.querySelector('.f-effDetail').classList.remove('invalid');
+      if(!c.summary){ card.querySelector('.f-summary').classList.add('invalid'); miss.push('한 줄 요약'); }
+      if(c.triggers.length===0 && !c.trigDetail) miss.push('트리거');
+      if(!c.effDetail){ card.querySelector('.f-effDetail').classList.add('invalid'); miss.push('효과 설명'); }
+      if(!c.refConfirm) miss.push('레퍼런스 첨부 확인 체크');
+      if(miss.length) problems.push('API ' + numOf(i) + ': ' + miss.join(', '));
+    });
+
+    if(!radioVal('wpro')) problems.push('와루도 프로 사용 여부');
+    if(!radioVal('portfolio')) problems.push('포트폴리오 공개 여부');
+    return problems;
+  }
+
+  $('genBtn').addEventListener('click', function(){
+    const problems = validate();
+    const err = $('errMsg');
+    if(problems.length){
+      err.textContent = '⚠️ 필수 항목을 확인해주세요\n' + problems.join('\n');
+      err.style.display = 'block';
+      $('preview').style.display = 'none';
+      $('copyBtn').style.display = 'none';
+      return;
+    }
+    err.style.display = 'none';
+    $('preview').textContent = build();
+    $('preview').style.display = 'block';
+    $('copyBtn').style.display = 'block';
+    $('copyBtn').scrollIntoView({behavior:'smooth', block:'end'});
+  });
+
+  $('copyBtn').addEventListener('click', function(){
+    const text = $('preview').textContent;
+    function done(){
+      const toast = $('toast');
+      toast.classList.add('show');
+      setTimeout(()=>toast.classList.remove('show'), 2200);
+    }
+    function fallback(){
+      const ta = document.createElement('textarea');
+      ta.value = text;
+      document.body.appendChild(ta);
+      ta.select();
+      try{ document.execCommand('copy'); done(); }catch(e){ alert('복사에 실패했어요. 미리보기 내용을 직접 드래그해서 복사해주세요!'); }
+      document.body.removeChild(ta);
+    }
+    if(navigator.clipboard && navigator.clipboard.writeText){
+      navigator.clipboard.writeText(text).then(done).catch(fallback);
+    } else { fallback(); }
+  });
+})();
+</script>
+</body>
+</html>
