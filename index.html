@@ -1,0 +1,633 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>와루도 API 커미션 신청서 | Warudo API Commission Form</title>
+
+<!-- 디스코드/SNS 미리보기 카드 (og 태그) -->
+<meta name="description" content="와루도 방송 인터랙션(API) 커미션 신청 폼이에요. 항목을 채우면 디스코드용 신청서가 자동으로 만들어져요! (KO/EN)">
+<meta property="og:type" content="website">
+<meta property="og:title" content="🔴 와루도 API 커미션 신청서 🔵 Warudo API Commission Form">
+<meta property="og:description" content="와루도 방송 인터랙션(API) 커미션 신청 폼이에요. 항목을 채우면 디스코드용 신청서가 자동으로 만들어져요! 레퍼런스 이미지는 필수 첨부💜 (한국어/English)">
+<meta property="og:site_name" content="와루도 API 커미션">
+<meta name="theme-color" content="#8b5cf6">
+<meta property="og:image" content="https://shandy71.github.io/Warudo-API-form/banner.png">
+<meta property="og:url" content="https://shandy71.github.io/Warudo-API-form/">
+<meta name="twitter:card" content="summary_large_image">
+
+<style>
+  :root{
+    --purple:#8b5cf6; --purple-dark:#6d28d9; --purple-light:#ede9fe;
+    --bg:#faf8ff; --card:#ffffff; --text:#2e2440; --muted:#7c6f93;
+    --border:#e5ddf5; --danger:#e0447c;
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  body{
+    font-family:'Pretendard','Apple SD Gothic Neo','Malgun Gothic',sans-serif;
+    background:var(--bg); color:var(--text); line-height:1.6; padding:24px 16px 80px;
+  }
+  .wrap{max-width:760px; margin:0 auto;}
+  header{text-align:center; margin-bottom:28px; position:relative;}
+  header h1{font-size:1.6rem; color:var(--purple-dark);}
+  header p{color:var(--muted); margin-top:6px; font-size:.95rem;}
+  .lang-toggle{
+    display:inline-flex; gap:0; margin-bottom:14px; border:1.5px solid var(--purple);
+    border-radius:999px; overflow:hidden;
+  }
+  .lang-toggle button{
+    border:none; background:#fff; color:var(--purple-dark); padding:7px 18px;
+    font-size:.88rem; font-weight:700; cursor:pointer; font-family:inherit; transition:all .15s;
+  }
+  .lang-toggle button.active{background:var(--purple); color:#fff;}
+  .card{
+    background:var(--card); border:1px solid var(--border); border-radius:16px;
+    padding:20px 22px; margin-bottom:18px; box-shadow:0 2px 10px rgba(139,92,246,.06);
+  }
+  .card h2{
+    font-size:1.05rem; color:var(--purple-dark); margin-bottom:12px;
+    display:flex; align-items:center; gap:8px;
+  }
+  .num{
+    background:var(--purple); color:#fff; width:24px; height:24px; border-radius:50%;
+    display:inline-flex; align-items:center; justify-content:center;
+    font-size:.8rem; flex-shrink:0;
+  }
+  label.field{display:block; font-size:.88rem; color:var(--muted); margin:10px 0 4px; font-weight:600;}
+  .req{color:var(--danger); font-weight:700;}
+  input[type=text], textarea, select{
+    width:100%; padding:10px 12px; border:1.5px solid var(--border); border-radius:10px;
+    font-size:.95rem; font-family:inherit; background:#fff; color:var(--text);
+  }
+  input:focus, textarea:focus, select:focus{outline:none; border-color:var(--purple);}
+  textarea{resize:vertical; min-height:64px;}
+  .hint{font-size:.8rem; color:var(--muted); margin-top:3px;}
+  .chips{display:flex; flex-wrap:wrap; gap:8px; margin-top:6px;}
+  .chips label{
+    border:1.5px solid var(--border); border-radius:999px; padding:6px 14px;
+    font-size:.87rem; cursor:pointer; user-select:none; background:#fff;
+    transition:all .15s;
+  }
+  .chips input{display:none;}
+  .chips label:has(input:checked){
+    background:var(--purple); color:#fff; border-color:var(--purple);
+  }
+  .checkline{display:flex; align-items:flex-start; gap:10px; margin:8px 0; font-size:.93rem; cursor:pointer;}
+  .checkline input{width:18px; height:18px; margin-top:3px; accent-color:var(--purple); cursor:pointer; flex-shrink:0;}
+  .ref-banner{
+    background:var(--purple-light); border:1.5px dashed var(--purple);
+    border-radius:12px; padding:12px 14px; font-size:.88rem; margin:12px 0 4px;
+  }
+  .fee-banner{
+    background:#fdf2f8; border:1.5px dashed var(--danger);
+    border-radius:12px; padding:12px 14px; font-size:.88rem; margin-bottom:10px;
+  }
+  .grid2{display:grid; grid-template-columns:1fr 1fr; gap:12px;}
+  @media(max-width:560px){.grid2{grid-template-columns:1fr;}}
+  .btn{
+    display:block; width:100%; padding:14px; border:none; border-radius:12px;
+    background:var(--purple); color:#fff; font-size:1.05rem; font-weight:700;
+    cursor:pointer; font-family:inherit; transition:background .15s;
+  }
+  .btn:hover{background:var(--purple-dark);}
+  .btn.secondary{background:#fff; color:var(--purple-dark); border:1.5px solid var(--purple); margin-top:10px;}
+  .btn.secondary:hover{background:var(--purple-light);}
+  .btn.add{
+    background:#fff; color:var(--purple-dark); border:2px dashed var(--purple);
+    margin-bottom:18px; font-size:.98rem;
+  }
+  .btn.add:hover{background:var(--purple-light);}
+  .preset-box{
+    background:var(--purple-light); border:1.5px solid var(--border); border-radius:16px;
+    padding:14px 16px; margin-bottom:12px;
+  }
+  .preset-title{font-size:.9rem; font-weight:700; color:var(--purple-dark); margin-bottom:3px;}
+  .preset-hint{font-size:.78rem; color:var(--muted); margin-bottom:9px;}
+  .preset-btns{display:flex; flex-wrap:wrap; gap:8px;}
+  .preset-btns button{
+    border:1.5px solid var(--purple); background:#fff; color:var(--purple-dark);
+    border-radius:999px; padding:7px 14px; font-size:.88rem; cursor:pointer;
+    font-family:inherit; font-weight:600; transition:all .15s;
+  }
+  .preset-btns button:hover{background:var(--purple); color:#fff;}
+  .preset-tag{
+    background:var(--purple-light); color:var(--purple-dark); border:1px solid var(--purple);
+    border-radius:999px; padding:2px 10px; font-size:.75rem; font-weight:700;
+  }
+  .api-card{
+    border:2px solid var(--purple); position:relative;
+    box-shadow:0 3px 14px rgba(139,92,246,.12);
+  }
+  .api-head{display:flex; align-items:center; justify-content:space-between; margin-bottom:4px;}
+  .api-title{
+    font-size:1.1rem; font-weight:800; color:var(--purple-dark);
+    display:flex; align-items:center; gap:8px;
+  }
+  .api-badge{background:var(--purple); color:#fff; border-radius:8px; padding:2px 10px; font-size:.95rem;}
+  .del-btn{
+    border:1.5px solid var(--border); background:#fff; color:var(--danger);
+    border-radius:8px; padding:5px 12px; font-size:.82rem; cursor:pointer;
+    font-family:inherit; font-weight:600;
+  }
+  .del-btn:hover{background:#fdf2f8; border-color:var(--danger);}
+  .subsec{font-size:.92rem; font-weight:700; color:var(--purple-dark); margin-top:16px;}
+  #preview{
+    white-space:pre-wrap; font-size:.85rem; background:#2e2440; color:#f3eeff;
+    border-radius:12px; padding:16px; margin-top:14px; display:none;
+    font-family:'Consolas','Courier New',monospace; max-height:420px; overflow-y:auto;
+  }
+  .error-msg{color:var(--danger); font-size:.85rem; margin-top:8px; display:none; font-weight:600; white-space:pre-line;}
+  .invalid{border-color:var(--danger)!important;}
+  .toast{
+    position:fixed; bottom:24px; left:50%; transform:translateX(-50%) translateY(80px);
+    background:var(--purple-dark); color:#fff; padding:12px 22px; border-radius:999px;
+    font-size:.9rem; opacity:0; transition:all .3s; pointer-events:none; z-index:99;
+  }
+  .toast.show{opacity:1; transform:translateX(-50%) translateY(0);}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <div class="lang-toggle">
+      <button type="button" id="langKo" class="active">한국어</button>
+      <button type="button" id="langEn">English</button>
+    </div>
+    <h1 data-i18n="h1">💜 와루도 API 커미션 신청서</h1>
+    <p data-i18n-html="h_sub">항목을 채우고 맨 아래 버튼을 누르면<br>디스코드에 바로 붙여넣을 수 있는 신청서가 만들어져요!</p>
+  </header>
+
+  <div class="card">
+    <h2><span class="num">1</span><span data-i18n="s1">기본 정보</span></h2>
+    <div class="grid2">
+      <div>
+        <label class="field"><span data-i18n="f_nick">활동명(닉네임)</span> <span class="req">*</span></label>
+        <input type="text" id="nick" data-i18n-ph="f_nick_ph" placeholder="예) 샨디">
+      </div>
+      <div>
+        <label class="field" data-i18n="f_platform">방송 플랫폼</label>
+        <select id="platform"></select>
+      </div>
+      <div style="grid-column:1/-1;">
+        <label class="field" data-i18n="f_channel">채널 링크</label>
+        <input type="text" id="channel" placeholder="https://">
+      </div>
+    </div>
+  </div>
+
+  <div class="card" style="border:none; background:transparent; box-shadow:none; padding:0 4px 0;">
+    <h2><span class="num">2</span><span data-i18n="s2">신청할 API 리스트</span></h2>
+    <p class="hint" style="margin:-6px 0 12px;" data-i18n="s2_hint">의뢰할 API가 여러 개라면 아래 [＋ API 추가하기] 버튼으로 늘려주세요!</p>
+  </div>
+
+  <div id="apiList"></div>
+
+  <div class="preset-box">
+    <p class="preset-title" data-i18n="ps_title">🎁 프리셋으로 바로 추가</p>
+    <p class="preset-hint" data-i18n="ps_hint">버튼을 누르면 내용이 미리 채워진 API가 추가돼요. 자유롭게 수정 가능!</p>
+    <div class="preset-btns" id="presetBtns"></div>
+  </div>
+  <button class="btn add" id="addApiBtn" data-i18n="btn_add">➕ 직접 입력으로 API 추가하기</button>
+
+  <div class="card">
+    <h2><span class="num">3</span><span data-i18n="s3">와루도 프로 사용 여부</span> <span class="req">*</span></h2>
+    <div class="chips" id="warudoPro">
+      <label><input type="radio" name="wpro" value="pro"><span data-i18n="wp_pro">와루도 프로 사용 중</span></label>
+      <label><input type="radio" name="wpro" value="free"><span data-i18n="wp_free">일반(무료) 버전</span></label>
+      <label><input type="radio" name="wpro" value="unknown"><span data-i18n="wp_unknown">잘 모르겠어요</span></label>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2><span class="num">4</span><span data-i18n="s4">필수 전달 리스트 ✅</span></h2>
+    <p class="hint" style="margin-bottom:8px;" data-i18n="s4_hint">작업에 꼭 필요한 파일이에요. 준비 상태를 체크해주세요!</p>
+    <label class="checkline"><input type="checkbox" id="d1"><span data-i18n="dl_1">와루도 아바타 파일 (.warudo)</span></label>
+    <label class="checkline"><input type="checkbox" id="d2"><span data-i18n="dl_2">자주 쓰는 와루도 씬</span></label>
+    <label class="checkline"><input type="checkbox" id="d3"><span data-i18n="dl_3">레퍼런스 이미지 (1장 이상)</span></label>
+  </div>
+
+  <div class="card">
+    <h2><span class="num">5</span><span data-i18n="s5">포트폴리오 공개 여부</span> <span class="req">*</span></h2>
+    <div class="fee-banner" data-i18n-html="pf_banner">완성된 작업물은 제작자 포트폴리오/홍보에 사용될 수 있어요.<br>⚠️ 포트폴리오 <b>비공개 요청 시 추가 비용 50,000원</b>이 발생합니다.</div>
+    <label class="checkline"><input type="radio" name="portfolio" value="public"><span data-i18n-html="pf_public">포트폴리오 <b>공개 가능</b></span></label>
+    <label class="checkline"><input type="radio" name="portfolio" value="private"><span data-i18n-html="pf_private"><b>비공개 요청</b> — 추가 비용 50,000원이 발생하는 것을 확인했습니다</span></label>
+  </div>
+
+  <div class="card">
+    <h2><span class="num">6</span><span data-i18n="s6">기타 문의사항</span></h2>
+    <textarea id="etc" data-i18n-ph="etc_ph" placeholder="궁금한 점이나 하고 싶은 말을 자유롭게 적어주세요!"></textarea>
+  </div>
+
+  <button class="btn" id="genBtn" data-i18n="btn_gen">✨ 디스코드용 신청서 만들기</button>
+  <p class="error-msg" id="errMsg"></p>
+  <div id="preview"></div>
+  <button class="btn secondary" id="copyBtn" style="display:none;" data-i18n="btn_copy">📋 신청서 복사하기</button>
+</div>
+
+<div class="toast" id="toast">복사 완료! 디스코드에 붙여넣어 주세요 💜</div>
+
+<script>
+(function(){
+  const $ = id => document.getElementById(id);
+  const CIRCLED = ['①','②','③','④','⑤','⑥','⑦','⑧','⑨','⑩','⑪','⑫','⑬','⑭','⑮'];
+  const numOf = i => CIRCLED[i] || (i+1);
+
+  /* ---------- 언어 사전 ---------- */
+  const TRIG_KEYS = ['points','bits','balloon','sub','raid','follow','superchat','membership','chat','hotkey','mic','face','timer'];
+  const PLAT_KEYS = ['','twitch','youtube','chzzk','soop','multi','other'];
+
+  const T = {
+    ko: {
+      title: '와루도 API 커미션 신청서',
+      h1: '💜 와루도 API 커미션 신청서',
+      h_sub: '항목을 채우고 맨 아래 버튼을 누르면<br>디스코드에 바로 붙여넣을 수 있는 신청서가 만들어져요!',
+      s1: '기본 정보', f_nick: '활동명(닉네임)', f_nick_ph: '예) 샨디',
+      f_platform: '방송 플랫폼', f_channel: '채널 링크',
+      pl_: '선택해주세요', pl_twitch: '트위치', pl_youtube: '유튜브', pl_chzzk: '치지직',
+      pl_soop: 'SOOP(숲)', pl_multi: '여러 플랫폼 동시 송출', pl_other: '기타',
+      s2: '신청할 API 리스트', s2_hint: '의뢰할 API가 여러 개라면 아래 [＋ API 추가하기] 버튼으로 늘려주세요!',
+      ps_title: '🎁 프리셋으로 바로 추가', ps_hint: '버튼을 누르면 내용이 미리 채워진 API가 추가돼요. 자유롭게 수정 가능!',
+      btn_add: '➕ 직접 입력으로 API 추가하기',
+      del_api: '🗑 이 API 삭제', min1: '⚠️ API는 최소 1개가 필요해요!',
+      f_summary: '한 줄 요약', f_summary_hint: '— "○○하면 → 아바타가 ○○한다" 형식으로!',
+      f_summary_ph: '예) 시청자가 채널포인트를 쓰면 → 아바타가 하늘로 발사된다',
+      trig_title: '🎬 트리거 — 무엇이 일어나면 작동하나요?',
+      tg_points: '트위치 채널포인트', tg_bits: '트위치 비트', tg_balloon: 'SOOP 별풍선', tg_sub: '구독/재구독', tg_raid: '레이드',
+      tg_follow: '팔로우', tg_superchat: '유튜브 슈퍼챗', tg_membership: '유튜브 멤버십',
+      tg_chat: '채팅 키워드/!명령어', tg_hotkey: '단축키', tg_mic: '마이크 볼륨(소리 지르면)',
+      tg_face: '표정/손 제스처', tg_timer: '타이머/랜덤',
+      f_trigDetail: '트리거 추가 설명 (명령어 이름, 금액 구간 등)',
+      f_trigDetail_ph: "예) 채널포인트 이름: '발사!' / 비트 1000개 이상일 때",
+      eff_title: '✨ 효과 — 아바타/화면이 어떻게 되나요?',
+      f_eff_ph: '예) 애니메이션 재생, 의상 변경, 표정 변화, 하늘로 발사, 머리 풍선, 소품 소환, 카메라 연출, 조명·배경 변경, 효과음 등 — 원하는 연출을 자유롭게 설명해주세요!',
+      detail_title: '📝 상세 설명',
+      f_detail_ph: '지속 시간, 연출 순서, 쿨타임, 금액 구간별 차이 등 원하시는 디테일을 자유롭게!',
+      ref_title: '🖼 레퍼런스', ref_req: '*필수',
+      ref_banner: '⭐ 이 API의 레퍼런스 이미지를 <b>반드시 1장 이상</b> 디스코드에 첨부해주세요!<br>원하는 느낌의 그림, 스크린샷, 손그림 모두 좋아요.',
+      ref_confirm: '레퍼런스 이미지를 디스코드 메시지에 <b>함께 첨부</b>하겠습니다.',
+      f_refCount: '첨부할 이미지 개수', f_refCount_ph: '예) 2장', f_refLink: '참고 영상/클립 링크 (있다면)',
+      s3: '와루도 프로 사용 여부',
+      wp_pro: '와루도 프로 사용 중', wp_free: '일반(무료) 버전', wp_unknown: '잘 모르겠어요',
+      s4: '필수 전달 리스트 ✅', s4_hint: '작업에 꼭 필요한 파일이에요. 준비 상태를 체크해주세요!',
+      dl_1: '와루도 아바타 파일 (.warudo)', dl_2: '자주 쓰는 와루도 씬', dl_3: '레퍼런스 이미지 (1장 이상)',
+      s5: '포트폴리오 공개 여부',
+      pf_banner: '완성된 작업물은 제작자 포트폴리오/홍보에 사용될 수 있어요.<br>⚠️ 포트폴리오 <b>비공개 요청 시 추가 비용 50,000원</b>이 발생합니다.',
+      pf_public: '포트폴리오 <b>공개 가능</b>',
+      pf_private: '<b>비공개 요청</b> — 추가 비용 50,000원이 발생하는 것을 확인했습니다',
+      s6: '기타 문의사항', etc_ph: '궁금한 점이나 하고 싶은 말을 자유롭게 적어주세요!',
+      btn_gen: '✨ 디스코드용 신청서 만들기', btn_copy: '📋 신청서 복사하기',
+      toast: '복사 완료! 디스코드에 붙여넣어 주세요 💜',
+      copy_fail: '복사에 실패했어요. 미리보기 내용을 직접 드래그해서 복사해주세요!',
+      err_head: '⚠️ 필수 항목을 확인해주세요',
+      v_nick: '활동명', v_summary: '한 줄 요약', v_trigger: '트리거', v_effect: '효과 설명',
+      v_ref: '레퍼런스 첨부 확인 체크', v_wpro: '와루도 프로 사용 여부', v_portfolio: '포트폴리오 공개 여부',
+      o_title: '🔴 **와루도 API 커미션 신청서** 🔵',
+      o_s1: '**1. 기본 정보**', o_nick: '활동명', o_platform: '방송 플랫폼', o_channel: '채널 링크',
+      o_s2: n => '**2. 신청 API (총 ' + n + '개)**',
+      o_preset: '프리셋', o_trig: '트리거', o_eff: '효과', o_detail: '상세 설명',
+      o_ref: '레퍼런스', o_ref_attach: '이미지 첨부 예정', o_ref_link: '참고 링크',
+      o_s3: '**3. 와루도 프로**', o_wp_pro: '와루도 프로 사용 중', o_wp_free: '일반(무료) 버전', o_wp_unknown: '잘 모르겠어요',
+      o_s4: '**4. 필수 전달 리스트**',
+      o_s5: '**5. 포트폴리오**', o_pf_public: '공개 가능', o_pf_private: '비공개 요청 (+50,000원 추가 비용 확인했습니다)',
+      o_s6: '**6. 기타 문의사항**',
+      none_sel: '(미선택)', none_fill: '(미입력)',
+      ps_wink: '파티클 윙크', ps_kiss: '팬캐릭터 뽀뽀', ps_dance: '춤 + 카메라 애니메이팅', ps_afk: 'AFK 효과', ps_wings: '천사날개'
+    },
+    en: {
+      title: 'Warudo API Commission Form',
+      h1: '💜 Warudo API Commission Form',
+      h_sub: 'Fill in the fields and hit the button at the bottom —<br>you’ll get a request ready to paste straight into Discord!',
+      s1: 'Basic Info', f_nick: 'Streamer Name (Nickname)', f_nick_ph: 'e.g. Shandy',
+      f_platform: 'Streaming Platform', f_channel: 'Channel Link',
+      pl_: 'Choose one', pl_twitch: 'Twitch', pl_youtube: 'YouTube', pl_chzzk: 'CHZZK',
+      pl_soop: 'SOOP', pl_multi: 'Multiple platforms (simulcast)', pl_other: 'Other',
+      s2: 'API Request List', s2_hint: 'Requesting more than one API? Add more with the [+ Add API] button below!',
+      ps_title: '🎁 Quick-add Presets', ps_hint: 'Adds an API with the fields pre-filled. Edit freely!',
+      btn_add: '➕ Add a blank API',
+      del_api: '🗑 Remove this API', min1: '⚠️ You need at least one API!',
+      f_summary: 'One-line Summary', f_summary_hint: '— in the form “When X happens → the avatar does Y”!',
+      f_summary_ph: 'e.g. When a viewer redeems channel points → the avatar gets launched into the sky',
+      trig_title: '🎬 Trigger — what sets it off?',
+      tg_points: 'Twitch Channel Points', tg_bits: 'Twitch Bits', tg_balloon: 'SOOP Star Balloons', tg_sub: 'Sub / Resub', tg_raid: 'Raid',
+      tg_follow: 'Follow', tg_superchat: 'YouTube Super Chat', tg_membership: 'YouTube Membership',
+      tg_chat: 'Chat keyword / !command', tg_hotkey: 'Hotkey', tg_mic: 'Mic volume (when I get loud)',
+      tg_face: 'Expression / hand gesture', tg_timer: 'Timer / random',
+      f_trigDetail: 'Trigger details (reward name, amount tiers, etc.)',
+      f_trigDetail_ph: 'e.g. Reward name: “Launch!” / when bits ≥ 1000',
+      eff_title: '✨ Effect — what happens to the avatar/scene?',
+      f_eff_ph: 'e.g. play an animation, outfit change, expression change, launched into the sky, balloon head, prop rain, camera moves, lighting/background change, sound effects — describe anything you want!',
+      detail_title: '📝 Details',
+      f_detail_ph: 'Duration, sequence, cooldown, per-tier differences — any detail you’d like!',
+      ref_title: '🖼 Reference', ref_req: '*required',
+      ref_banner: '⭐ Please attach <b>at least 1 reference image</b> for this API with your Discord message!<br>Art, screenshots, rough sketches — anything that shows the vibe.',
+      ref_confirm: 'I will <b>attach reference image(s)</b> with my Discord message.',
+      f_refCount: 'Number of images', f_refCount_ph: 'e.g. 2', f_refLink: 'Reference video/clip link (if any)',
+      s3: 'Do you use Warudo Pro?',
+      wp_pro: 'Using Warudo Pro', wp_free: 'Free version', wp_unknown: 'Not sure',
+      s4: 'Required Handoff Checklist ✅', s4_hint: 'Files I need for the work. Please check what you have ready!',
+      dl_1: 'Warudo avatar file (.warudo)', dl_2: 'Your frequently used Warudo scene(s)', dl_3: 'Reference image(s) (at least 1)',
+      s5: 'Portfolio Permission',
+      pf_banner: 'Finished work may be featured in my portfolio/promotions.<br>⚠️ Keeping it private costs an <b>extra ₩50,000 (KRW)</b>.',
+      pf_public: '<b>OK to feature</b> in the portfolio',
+      pf_private: '<b>Keep it private</b> — I understand the extra ₩50,000 fee',
+      s6: 'Other Notes / Questions', etc_ph: 'Questions or anything else — write freely!',
+      btn_gen: '✨ Generate Discord Request', btn_copy: '📋 Copy Request',
+      toast: 'Copied! Paste it into Discord 💜',
+      copy_fail: 'Copy failed — please select the preview text and copy it manually!',
+      err_head: '⚠️ Please check the required fields',
+      v_nick: 'Streamer name', v_summary: 'One-line summary', v_trigger: 'Trigger', v_effect: 'Effect description',
+      v_ref: 'Reference attachment confirmation', v_wpro: 'Warudo Pro question', v_portfolio: 'Portfolio permission',
+      o_title: '🔴 **Warudo API Commission Request** 🔵',
+      o_s1: '**1. Basic Info**', o_nick: 'Name', o_platform: 'Platform', o_channel: 'Channel',
+      o_s2: n => '**2. Requested APIs (' + n + ' total)**',
+      o_preset: 'Preset', o_trig: 'Trigger', o_eff: 'Effect', o_detail: 'Details',
+      o_ref: 'Reference', o_ref_attach: 'image(s) attached with this message', o_ref_link: 'ref link',
+      o_s3: '**3. Warudo Pro**', o_wp_pro: 'Using Warudo Pro', o_wp_free: 'Free version', o_wp_unknown: 'Not sure',
+      o_s4: '**4. Required Handoff Checklist**',
+      o_s5: '**5. Portfolio**', o_pf_public: 'OK to feature', o_pf_private: 'Keep private (+₩50,000 fee acknowledged)',
+      o_s6: '**6. Other Notes**',
+      none_sel: '(none selected)', none_fill: '(not filled)',
+      ps_wink: 'Particle Wink', ps_kiss: 'Fan-Character Kiss', ps_dance: 'Dance + Camera Animation', ps_afk: 'AFK Mode', ps_wings: 'Angel Wings'
+    }
+  };
+
+  const PRESETS = [
+    {id:'wink', emoji:'✨', triggers:['face'],
+      ko:{summary:'윙크하면 → 눈가에서 반짝이 파티클이 터진다', trigDetail:'윙크 표정 인식 (얼굴 트래킹)', detail:''},
+      en:{summary:'When I wink → sparkle particles burst by my eye', trigDetail:'Wink detection (face tracking)', detail:''}},
+    {id:'kiss', emoji:'💋', triggers:['points'],
+      ko:{summary:'트리거되면 → 팬 캐릭터가 나타나 아바타에게 뽀뽀한다', trigDetail:'',
+          detail:'팬 캐릭터 이미지(또는 모델) 파일이 필요해요. 신청 시 함께 전달해주세요!'},
+      en:{summary:'On trigger → a fan character appears and kisses the avatar', trigDetail:'',
+          detail:'A fan-character image (or model) file is needed — please send it with your request!'}},
+    {id:'dance', emoji:'💃', triggers:['chat'],
+      ko:{summary:'트리거되면 → 아바타가 춤추고 카메라도 연출에 맞춰 움직인다', trigDetail:'',
+          detail:'원하는 춤(곡)과 카메라 무빙 느낌을 적어주세요.'},
+      en:{summary:'On trigger → the avatar dances while the camera moves with the choreography', trigDetail:'',
+          detail:'Tell me the dance (song) you want and the camera-move vibe.'}},
+    {id:'afk', emoji:'💤', triggers:['hotkey'],
+      ko:{summary:'자리를 비울 때 → AFK 모드 연출로 전환된다', trigDetail:'', detail:''},
+      en:{summary:'When I step away → the scene switches to an AFK mode', trigDetail:'', detail:''}},
+    {id:'wings', emoji:'😇', triggers:['points'],
+      ko:{summary:'트리거되면 → 아바타 등에 천사 날개가 나타난다', trigDetail:'', detail:''},
+      en:{summary:'On trigger → angel wings appear on the avatar’s back', trigDetail:'', detail:''}}
+  ];
+
+  let lang = 'ko';
+  const t = key => T[lang][key];
+  const or = (s, alt) => s ? s : (alt || t('none_fill'));
+
+  /* ---------- 언어 적용 ---------- */
+  function applyLang(root){
+    const scope = root || document;
+    scope.querySelectorAll('[data-i18n]').forEach(el => { el.textContent = t(el.dataset.i18n); });
+    scope.querySelectorAll('[data-i18n-html]').forEach(el => { el.innerHTML = t(el.dataset.i18nHtml); });
+    scope.querySelectorAll('[data-i18n-ph]').forEach(el => { el.placeholder = t(el.dataset.i18nPh); });
+    if(!root){
+      document.documentElement.lang = lang;
+      document.title = t('title');
+      // 플랫폼 select (선택값 유지)
+      const sel = $('platform'); const keep = sel.value;
+      sel.innerHTML = PLAT_KEYS.map(k => `<option value="${k}">${t('pl_'+k)}</option>`).join('');
+      sel.value = keep;
+      // 프리셋 버튼
+      document.querySelectorAll('#presetBtns button').forEach(b => {
+        b.textContent = b.dataset.emoji + ' ' + t('ps_'+b.dataset.preset);
+      });
+      // 카드 위 프리셋 태그
+      document.querySelectorAll('.api-card').forEach(card => {
+        if(card.dataset.preset) card.querySelector('.preset-tag').textContent = '🎁 ' + t('ps_'+card.dataset.preset);
+      });
+      $('toast').textContent = t('toast');
+      $('langKo').classList.toggle('active', lang==='ko');
+      $('langEn').classList.toggle('active', lang==='en');
+    }
+  }
+
+  function setLang(l){
+    lang = l;
+    applyLang();
+    // 미리보기가 열려 있으면 새 언어로 다시 생성
+    if($('preview').style.display === 'block') $('preview').textContent = build();
+  }
+  $('langKo').addEventListener('click', ()=>setLang('ko'));
+  $('langEn').addEventListener('click', ()=>setLang('en'));
+
+  /* ---------- API 카드 ---------- */
+  function apiCardHTML(){
+    const trigChips = TRIG_KEYS.map(k =>
+      `<label><input type="checkbox" value="${k}"><span data-i18n="tg_${k}"></span></label>`).join('');
+    return `
+      <div class="api-head">
+        <span class="api-title"><span class="api-badge">API</span><span class="api-num"></span><span class="preset-tag" style="display:none;"></span></span>
+        <button type="button" class="del-btn" data-i18n="del_api"></button>
+      </div>
+
+      <label class="field"><span data-i18n="f_summary"></span> <span class="req">*</span> <span data-i18n="f_summary_hint"></span></label>
+      <textarea class="f-summary" data-i18n-ph="f_summary_ph" style="min-height:52px;"></textarea>
+
+      <p class="subsec"><span data-i18n="trig_title"></span> <span class="req">*</span></p>
+      <div class="chips f-triggers">${trigChips}</div>
+      <label class="field" data-i18n="f_trigDetail"></label>
+      <input type="text" class="f-trigDetail" data-i18n-ph="f_trigDetail_ph">
+
+      <p class="subsec"><span data-i18n="eff_title"></span> <span class="req">*</span></p>
+      <textarea class="f-effDetail" data-i18n-ph="f_eff_ph" style="min-height:80px; margin-top:6px;"></textarea>
+
+      <p class="subsec" data-i18n="detail_title"></p>
+      <textarea class="f-detail" data-i18n-ph="f_detail_ph"></textarea>
+
+      <p class="subsec"><span data-i18n="ref_title"></span> <span class="req" data-i18n="ref_req"></span></p>
+      <div class="ref-banner" data-i18n-html="ref_banner"></div>
+      <label class="checkline"><input type="checkbox" class="f-refConfirm"><span><span data-i18n-html="ref_confirm"></span> <span class="req">*</span></span></label>
+      <div class="grid2">
+        <div>
+          <label class="field" data-i18n="f_refCount"></label>
+          <input type="text" class="f-refCount" data-i18n-ph="f_refCount_ph">
+        </div>
+        <div>
+          <label class="field" data-i18n="f_refLink"></label>
+          <input type="text" class="f-refLink" placeholder="https://">
+        </div>
+      </div>`;
+  }
+
+  const list = $('apiList');
+
+  function addApiCard(preset){
+    const card = document.createElement('div');
+    card.className = 'card api-card';
+    card.innerHTML = apiCardHTML();
+    applyLang(card);
+    if(preset){
+      const p = preset[lang];
+      card.dataset.preset = preset.id;
+      const tag = card.querySelector('.preset-tag');
+      tag.textContent = '🎁 ' + t('ps_'+preset.id);
+      tag.style.display = '';
+      card.querySelector('.f-summary').value = p.summary;
+      card.querySelectorAll('.f-triggers input').forEach(cb=>{
+        if(preset.triggers.includes(cb.value)) cb.checked = true;
+      });
+      card.querySelector('.f-trigDetail').value = p.trigDetail || '';
+      card.querySelector('.f-detail').value = p.detail || '';
+    }
+    card.querySelector('.del-btn').addEventListener('click', function(){
+      if(list.children.length <= 1){ alert(t('min1')); return; }
+      card.remove();
+      renumber();
+    });
+    list.appendChild(card);
+    renumber();
+    return card;
+  }
+
+  function renumber(){
+    Array.from(list.children).forEach((card, i)=>{
+      card.querySelector('.api-num').textContent = numOf(i);
+      card.querySelector('.del-btn').style.display = list.children.length > 1 ? '' : 'none';
+    });
+  }
+
+  PRESETS.forEach(p=>{
+    const b = document.createElement('button');
+    b.type = 'button';
+    b.dataset.preset = p.id;
+    b.dataset.emoji = p.emoji;
+    b.addEventListener('click', function(){
+      const card = addApiCard(p);
+      card.scrollIntoView({behavior:'smooth', block:'start'});
+    });
+    $('presetBtns').appendChild(b);
+  });
+
+  $('addApiBtn').addEventListener('click', function(){
+    const card = addApiCard();
+    card.scrollIntoView({behavior:'smooth', block:'start'});
+  });
+
+  /* ---------- 초기화 ---------- */
+  const urlLang = new URLSearchParams(location.search).get('lang');
+  if(urlLang === 'en') lang = 'en';
+  applyLang();
+  addApiCard(); // 기본 1개
+
+  /* ---------- 데이터 수집 / 생성 ---------- */
+  function cardData(card){
+    const q = sel => card.querySelector(sel);
+    const val = sel => q(sel).value.trim();
+    return {
+      summary: val('.f-summary'),
+      triggers: Array.from(card.querySelectorAll('.f-triggers input:checked')).map(c=>c.value),
+      trigDetail: val('.f-trigDetail'),
+      effDetail: val('.f-effDetail'),
+      detail: val('.f-detail'),
+      refConfirm: q('.f-refConfirm').checked,
+      refCount: val('.f-refCount'),
+      refLink: val('.f-refLink'),
+      preset: card.dataset.preset || '',
+      el: card
+    };
+  }
+
+  function radioVal(name){
+    const r = document.querySelector('input[name='+name+']:checked');
+    return r ? r.value : '';
+  }
+
+  function build(){
+    const cards = Array.from(list.children).map(cardData);
+    let x = '';
+    x += t('o_title') + '\n';
+    x += '━━━━━━━━━━━━━━━━━━\n';
+    x += t('o_s1') + '\n';
+    x += '· ' + t('o_nick') + ': ' + or($('nick').value.trim()) + '\n';
+    x += '· ' + t('o_platform') + ': ' + ($('platform').value ? t('pl_'+$('platform').value) : t('none_fill')) + '\n';
+    x += '· ' + t('o_channel') + ': ' + or($('channel').value.trim()) + '\n\n';
+    x += T[lang].o_s2(cards.length) + '\n';
+    cards.forEach((c, i)=>{
+      x += '\n◆ **API ' + numOf(i) + '** — ' + or(c.summary) + '\n';
+      if(c.preset) x += '· ' + t('o_preset') + ': 🎁 ' + t('ps_'+c.preset) + '\n';
+      x += '· ' + t('o_trig') + ': ' + (c.triggers.length ? c.triggers.map(k=>t('tg_'+k)).join(', ') : t('none_sel'));
+      x += c.trigDetail ? ' / ' + c.trigDetail : '';
+      x += '\n· ' + t('o_eff') + ': ' + or(c.effDetail) + '\n';
+      if(c.detail) x += '· ' + t('o_detail') + ': ' + c.detail + '\n';
+      x += '· ' + t('o_ref') + ': ' + t('o_ref_attach') + (c.refCount ? ' (' + c.refCount + ')' : '');
+      if(c.refLink) x += ' / ' + t('o_ref_link') + ': ' + c.refLink;
+      x += '\n';
+    });
+    const wp = radioVal('wpro');
+    x += '\n' + t('o_s3') + ': ' + (wp ? t('o_wp_'+wp) : t('none_fill')) + '\n\n';
+    x += t('o_s4') + '\n';
+    x += ($('d1').checked?'☑':'☐') + ' ' + t('dl_1') + '\n';
+    x += ($('d2').checked?'☑':'☐') + ' ' + t('dl_2') + '\n';
+    x += ($('d3').checked?'☑':'☐') + ' ' + t('dl_3') + '\n\n';
+    const pf = radioVal('portfolio');
+    x += t('o_s5') + ': ' + (pf ? t('o_pf_'+pf) : t('none_fill')) + '\n';
+    if($('etc').value.trim()) x += '\n' + t('o_s6') + '\n' + $('etc').value.trim() + '\n';
+    x += '━━━━━━━━━━━━━━━━━━';
+    return x;
+  }
+
+  function validate(){
+    const problems = [];
+    $('nick').classList.remove('invalid');
+    if(!$('nick').value.trim()){ $('nick').classList.add('invalid'); problems.push(t('v_nick')); }
+
+    Array.from(list.children).forEach((card, i)=>{
+      const c = cardData(card);
+      const miss = [];
+      card.querySelector('.f-summary').classList.remove('invalid');
+      card.querySelector('.f-effDetail').classList.remove('invalid');
+      if(!c.summary){ card.querySelector('.f-summary').classList.add('invalid'); miss.push(t('v_summary')); }
+      if(c.triggers.length===0 && !c.trigDetail) miss.push(t('v_trigger'));
+      if(!c.effDetail){ card.querySelector('.f-effDetail').classList.add('invalid'); miss.push(t('v_effect')); }
+      if(!c.refConfirm) miss.push(t('v_ref'));
+      if(miss.length) problems.push('API ' + numOf(i) + ': ' + miss.join(', '));
+    });
+
+    if(!radioVal('wpro')) problems.push(t('v_wpro'));
+    if(!radioVal('portfolio')) problems.push(t('v_portfolio'));
+    return problems;
+  }
+
+  $('genBtn').addEventListener('click', function(){
+    const problems = validate();
+    const err = $('errMsg');
+    if(problems.length){
+      err.textContent = t('err_head') + '\n' + problems.join('\n');
+      err.style.display = 'block';
+      $('preview').style.display = 'none';
+      $('copyBtn').style.display = 'none';
+      return;
+    }
+    err.style.display = 'none';
+    $('preview').textContent = build();
+    $('preview').style.display = 'block';
+    $('copyBtn').style.display = 'block';
+    $('copyBtn').scrollIntoView({behavior:'smooth', block:'end'});
+  });
+
+  $('copyBtn').addEventListener('click', function(){
+    const text = $('preview').textContent;
+    function done(){
+      const toast = $('toast');
+      toast.classList.add('show');
+      setTimeout(()=>toast.classList.remove('show'), 2200);
+    }
+    function fallback(){
+      const ta = document.createElement('textarea');
+      ta.value = text;
+      document.body.appendChild(ta);
+      ta.select();
+      try{ document.execCommand('copy'); done(); }catch(e){ alert(t('copy_fail')); }
+      document.body.removeChild(ta);
+    }
+    if(navigator.clipboard && navigator.clipboard.writeText){
+      navigator.clipboard.writeText(text).then(done).catch(fallback);
+    } else { fallback(); }
+  });
+})();
+</script>
+</body>
+</html>
