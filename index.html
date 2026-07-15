@@ -262,6 +262,9 @@
       f_eff_ph: '예) 애니메이션 재생, 의상 변경, 표정 변화, 하늘로 발사, 머리 풍선, 소품 소환, 카메라 연출, 조명·배경 변경, 효과음 등 — 원하는 연출을 자유롭게 설명해주세요!',
       detail_title: '📝 상세 설명',
       f_detail_ph: '지속 시간, 연출 순서, 쿨타임, 금액 구간별 차이 등 원하시는 디테일을 자유롭게!',
+      fc_title: '🧸 팬 캐릭터 3D 모델 보유 여부',
+      fc_model3d: '3D 모델 있음', fc_image: '이미지/일러스트만 있음', fc_none: '아직 없음',
+      fc_hint: '3D 모델(.vrm 등)이 있으면 그대로 활용해요. 이미지만 있어도 이미지 기반 연출로 제작 가능해요!',
       ref_title: '🖼 레퍼런스', ref_req: '*필수',
       ref_banner: '⭐ 이 API의 레퍼런스 이미지를 <b>반드시 1장 이상</b> 디스코드에 첨부해주세요!<br>원하는 느낌의 그림, 스크린샷, 손그림 모두 좋아요.',
       ref_confirm: '레퍼런스 이미지를 디스코드 메시지에 <b>함께 첨부</b>하겠습니다.',
@@ -281,10 +284,12 @@
       err_head: '⚠️ 필수 항목을 확인해주세요',
       v_nick: '활동명', v_summary: '한 줄 요약', v_trigger: '트리거', v_effect: '효과 설명',
       v_ref: '레퍼런스 첨부 확인 체크', v_wpro: '와루도 프로 사용 여부', v_portfolio: '포트폴리오 공개 여부',
+      v_fanchar: '팬 캐릭터 3D 모델 보유 여부',
       o_title: '🔴 **와루도 API 커미션 신청서** 🔵',
       o_s1: '**1. 기본 정보**', o_nick: '활동명', o_platform: '방송 플랫폼', o_channel: '채널 링크',
       o_s2: n => '**2. 신청 API (총 ' + n + '개)**',
       o_preset: '프리셋', o_trig: '트리거', o_eff: '효과', o_detail: '상세 설명',
+      o_fanchar: '팬캐릭터 3D 모델', o_fc_model3d: '3D 모델 있음 (파일 전달 예정)', o_fc_image: '이미지/일러스트만 있음', o_fc_none: '아직 없음',
       o_ref: '레퍼런스', o_ref_attach: '이미지 첨부 예정', o_ref_link: '참고 링크',
       o_s3: '**3. 와루도 프로**', o_wp_pro: '와루도 프로 사용 중', o_wp_free: '일반(무료) 버전', o_wp_unknown: '잘 모르겠어요',
       o_s4: '**4. 필수 전달 리스트**',
@@ -318,6 +323,9 @@
       f_eff_ph: 'e.g. play an animation, outfit change, expression change, launched into the sky, balloon head, prop rain, camera moves, lighting/background change, sound effects — describe anything you want!',
       detail_title: '📝 Details',
       f_detail_ph: 'Duration, sequence, cooldown, per-tier differences — any detail you’d like!',
+      fc_title: '🧸 Fan-character 3D model',
+      fc_model3d: 'I have a 3D model', fc_image: 'Image / art only', fc_none: 'None yet',
+      fc_hint: 'A 3D model (e.g. .vrm) can be used as-is. Image-only works too — the effect will be image-based!',
       ref_title: '🖼 Reference', ref_req: '*required',
       ref_banner: '⭐ Please attach <b>at least 1 reference image</b> for this API with your Discord message!<br>Art, screenshots, rough sketches — anything that shows the vibe.',
       ref_confirm: 'I will <b>attach reference image(s)</b> with my Discord message.',
@@ -337,10 +345,12 @@
       err_head: '⚠️ Please check the required fields',
       v_nick: 'Streamer name', v_summary: 'One-line summary', v_trigger: 'Trigger', v_effect: 'Effect description',
       v_ref: 'Reference attachment confirmation', v_wpro: 'Warudo Pro question', v_portfolio: 'Portfolio permission',
+      v_fanchar: 'Fan-character 3D model question',
       o_title: '🔴 **Warudo API Commission Request** 🔵',
       o_s1: '**1. Basic Info**', o_nick: 'Name', o_platform: 'Platform', o_channel: 'Channel',
       o_s2: n => '**2. Requested APIs (' + n + ' total)**',
       o_preset: 'Preset', o_trig: 'Trigger', o_eff: 'Effect', o_detail: 'Details',
+      o_fanchar: 'Fan-char 3D model', o_fc_model3d: 'Has a 3D model (will send the file)', o_fc_image: 'Image / art only', o_fc_none: 'None yet',
       o_ref: 'Reference', o_ref_attach: 'image(s) attached with this message', o_ref_link: 'ref link',
       o_s3: '**3. Warudo Pro**', o_wp_pro: 'Using Warudo Pro', o_wp_free: 'Free version', o_wp_unknown: 'Not sure',
       o_s4: '**4. Required Handoff Checklist**',
@@ -414,7 +424,9 @@
   $('langEn').addEventListener('click', ()=>setLang('en'));
 
   /* ---------- API 카드 ---------- */
+  let cardSeq = 0;
   function apiCardHTML(){
+    const seq = ++cardSeq;
     const trigChips = TRIG_KEYS.map(k =>
       `<label><input type="checkbox" value="${k}"><span data-i18n="tg_${k}"></span></label>`).join('');
     return `
@@ -436,6 +448,16 @@
 
       <p class="subsec" data-i18n="detail_title"></p>
       <textarea class="f-detail" data-i18n-ph="f_detail_ph"></textarea>
+
+      <div class="fanchar-sec" style="display:none;">
+        <p class="subsec"><span data-i18n="fc_title"></span> <span class="req">*</span></p>
+        <div class="chips f-fanchar">
+          <label><input type="radio" name="fanchar-${seq}" value="model3d"><span data-i18n="fc_model3d"></span></label>
+          <label><input type="radio" name="fanchar-${seq}" value="image"><span data-i18n="fc_image"></span></label>
+          <label><input type="radio" name="fanchar-${seq}" value="none"><span data-i18n="fc_none"></span></label>
+        </div>
+        <p class="hint" data-i18n="fc_hint"></p>
+      </div>
 
       <p class="subsec"><span data-i18n="ref_title"></span> <span class="req" data-i18n="ref_req"></span></p>
       <div class="ref-banner" data-i18n-html="ref_banner"></div>
@@ -471,6 +493,7 @@
       });
       card.querySelector('.f-trigDetail').value = p.trigDetail || '';
       card.querySelector('.f-detail').value = p.detail || '';
+      if(preset.id === 'kiss') card.querySelector('.fanchar-sec').style.display = '';
     }
     card.querySelector('.del-btn').addEventListener('click', function(){
       if(list.children.length <= 1){ alert(t('min1')); return; }
@@ -522,6 +545,8 @@
       trigDetail: val('.f-trigDetail'),
       effDetail: val('.f-effDetail'),
       detail: val('.f-detail'),
+      fancharVisible: q('.fanchar-sec').style.display !== 'none',
+      fanchar: (card.querySelector('.f-fanchar input:checked') || {}).value || '',
       refConfirm: q('.f-refConfirm').checked,
       refCount: val('.f-refCount'),
       refLink: val('.f-refLink'),
@@ -552,6 +577,7 @@
       x += c.trigDetail ? ' / ' + c.trigDetail : '';
       x += '\n· ' + t('o_eff') + ': ' + or(c.effDetail) + '\n';
       if(c.detail) x += '· ' + t('o_detail') + ': ' + c.detail + '\n';
+      if(c.fancharVisible) x += '· ' + t('o_fanchar') + ': ' + (c.fanchar ? t('o_fc_'+c.fanchar) : t('none_sel')) + '\n';
       x += '· ' + t('o_ref') + ': ' + t('o_ref_attach') + (c.refCount ? ' (' + c.refCount + ')' : '');
       if(c.refLink) x += ' / ' + t('o_ref_link') + ': ' + c.refLink;
       x += '\n';
@@ -582,6 +608,7 @@
       if(!c.summary){ card.querySelector('.f-summary').classList.add('invalid'); miss.push(t('v_summary')); }
       if(c.triggers.length===0 && !c.trigDetail) miss.push(t('v_trigger'));
       if(!c.effDetail){ card.querySelector('.f-effDetail').classList.add('invalid'); miss.push(t('v_effect')); }
+      if(c.fancharVisible && !c.fanchar) miss.push(t('v_fanchar'));
       if(!c.refConfirm) miss.push(t('v_ref'));
       if(miss.length) problems.push('API ' + numOf(i) + ': ' + miss.join(', '));
     });
